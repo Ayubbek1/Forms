@@ -8,6 +8,7 @@ let texts = document.querySelectorAll(".nesP")
 let images = document.querySelectorAll("img")
 let block = document.querySelector(".block")
 let button = document.querySelector("button")
+let error = false
 let pattern = {
     Name: /^[a-z ,.'-]+$/i,
     Age: /\b([1-9]|[1-9][0-9]|100)\b/,
@@ -30,9 +31,8 @@ inps.forEach(inp => {
             inp.parentElement.previousSibling.style.color = "green"
             inp.style.borderColor = "green"
             inp.nextElementSibling.style.display = "none"
-
-            
         } else {
+            error = true
             inp.style.borderColor = "red"
             inp.parentElement.previousSibling.style.color = "red"
             inp.nextElementSibling.style.display = "block"
@@ -43,7 +43,7 @@ inps.forEach(inp => {
 })
 form.onsubmit = (event) => {
     event.preventDefault();
-    let error = false
+    
 
     inps.forEach(inp => {
 
