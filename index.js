@@ -1,42 +1,71 @@
 let form = document.forms.signup
-let inps = form.querySelectorAll('input')
+let inps = form.querySelectorAll('.nes')
 let countT = 0
 let countF = 0
 let succes = document.querySelector("#succes")
 let unsucces = document.querySelector("#unsucces")
 let texts = document.querySelectorAll(".nesP")
-console.log(texts);
+let images = document.querySelectorAll("img")
+let block = document.querySelector(".block")
+let button = document.querySelector("button")
+let pattern = {
+    Name: /^[a-z ,.'-]+$/i,
+    Age: /\b([1-9]|[1-9][0-9]|100)\b/,
+    Surname: /^[a-z ,.'-]+$/i,
+    AboutYou: /(^[a-z ]+$)|[1-9]/i,
+    Email: /^[\w-\.]+@([\w-]+\.)+[\w-]{1,3}$/g,
+    WhatIsJavaScript: /(^[a-z ]+$)|[1-9]/i,
+    Phone: /^998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/,
+    WhatIsHTML: /(^[a-z ]+$)|[1-9]/i,
+    MomsName: /^[a-z ,.'-]+$/i,
+    DadsName: /^[a-z ,.'-]+$/i,
+    YourFavouriteCar: /(^[a-z ]+$)|[1-9]/i,
+    WhatIsCSS: /(^[a-z ]+$)|[1-9]/i
+}
+inps.forEach(inp => {
+    inp.onkeyup = () => {
+        console.log(1);
+        let key = inp.getAttribute("name")
+        if (pattern[key].test(inp.value)) {
+            inp.parentElement.previousSibling.style.color = "green"
+            inp.style.borderColor = "green"
+            inp.nextElementSibling.style.display = "none"
+
+            
+        } else {
+            inp.style.borderColor = "red"
+            inp.parentElement.previousSibling.style.color = "red"
+            inp.nextElementSibling.style.display = "block"
+
+        }
+        
+    }
+})
 form.onsubmit = (event) => {
     event.preventDefault();
     let error = false
 
-    texts.forEach(text =>{
-        
-    })
-
     inps.forEach(inp => {
-        texts.forEach(text =>{
-            if (inp.value.length === 0 && inp.classList.contains("nes")) {
-                text.style.color = "red"
-                
-            } else {
-                text.style.color = "blue"
-            }
-        })
-        if (inp.value.length === 0 && inp.classList.contains("nes")) {
+
+        if (inp.value.length === 0) {
             error = true
             inp.style.borderColor = "red"
+            inp.parentElement.previousSibling.style.color = "red"
+            inp.parentElement.previousSibling.style.color
             countF++
             countT = 7 - countF
-        } else {
+            inp.nextElementSibling.style.display = "block"
 
-            inp.style.borderColor = "black"
+        } else {
+            inp.parentElement.previousSibling.style.color = "blue"
+            inp.style.borderColor = "blue"
+            inp.nextElementSibling.style.display = "none"
+
         }
 
     })
 
 
-    console.log(succes.innerHTML);
     succes.innerHTML = `Success: ${countT}/7`
     unsucces.innerHTML = `Error: ${countF}/7`
     if (error) {
@@ -49,12 +78,20 @@ form.onsubmit = (event) => {
 
 function submit() {
     let user = {}
-    succes.innerHTML = `Success: 7/7`
-    let fm = new FormData(form)
 
+    let fm = new FormData(form)
+    succes.innerHTML = "Success: 7/7"
     fm.forEach((value, key) => {
         user[key] = value
     })
+    block.style.transform = "translateX(0%)";
+    block.style.opacity =  "1"
+    button.style.display = "none"
+    setTimeout(() => {
+        block.style.transform = "translateX(-150%)";
+        block.style.opacity =  "0"
+        button.style.display = "block"
 
+    }, 3000);
     console.log(user);
 }
